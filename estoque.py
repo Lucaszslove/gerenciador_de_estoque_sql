@@ -118,15 +118,17 @@ Preço: R$ {produto[3]}""")
 
         if opcao == 1:
             inserir_dados()
-        if opcao == 2:
+        elif opcao == 2:
             visualizar_estoque()
-        if opcao == 3:
+        elif opcao == 3:
             atualizar_dados()
-        if opcao == 4:
+        elif opcao == 4:
             deletar_dados()
-        if opcao == 5:
+        elif opcao == 5:
             sair()
             break
+        else:
+            print("Digite apenas as opções de [1] a [5]")
     except ValueError:
         print("Digite apenas Números")
         continue
