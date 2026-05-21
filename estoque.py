@@ -1,9 +1,10 @@
 import sqlite3
 
+conexao = sqlite3.connect("banco_estoque.db")
+cursor = conexao.cursor()
+
 while True:
     try:
-        conexao = sqlite3.connect("banco_estoque.db")
-        cursor = conexao.cursor()
 
         cursor.execute("""CREATE TABLE IF NOT EXISTS estoque_loja(
                     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -21,6 +22,7 @@ while True:
             cursor.execute("""INSERT INTO estoque_loja
                         (nome, quantidade, preco) VALUES
                         (?, ?, ?)""", (nome, quantidade, preco))
+            print("Estoque Atualizado!")
             conexao.commit()
 
         def visualizar_estoque():
@@ -31,7 +33,7 @@ while True:
                 print(f"""Id: {id}
 Nome: {nome}
 Quantidade: {quantidade}
-Preço: {preco}""")
+Preço: R$ {preco}""")
                 print()
 
 
@@ -51,20 +53,20 @@ Preço: {preco}""")
             print(f"""ID: {produto[0]}
 Nome: {produto[1]}
 Quantidade: {produto[2]}
-Preço: {produto[3]}""")
+Preço: R$ {produto[3]}""")
             print()
             print("-- Escolha a Opção para Atualizar --")
             print("[1] Quantidade\n[2] Preço\n[3] Sair")
-            escolha_opção = int(input("Digite a opção: "))
-            if escolha_opção == 1:
+            escolha_opçao = int(input("Digite a opção: "))
+            if escolha_opçao == 1:
                 nova_quantidade = int(input("Digite a Nova Quantidade do Produto: "))
                 cursor.execute("""UPDATE estoque_loja SET quantidade = ? WHERE id = ?""", (nova_quantidade, buscar_id))
                 print("Quantidade ATUALIZADA!")
-            elif escolha_opção == 2:
+            elif escolha_opçao == 2:
                 novo_preco = float(input("Digite o Novo Preço do Produto: "))
                 cursor.execute("""UPDATE estoque_loja SET preco = ? WHERE id = ?""", (novo_preco, buscar_id))
                 print("Preço ATUALIZADO!")
-            elif escolha_opção == 3:
+            elif escolha_opçao == 3:
                 return "Saindo para o Menu"
             else:
                 print("Escolha apenas [1], [2] ou [3]")
@@ -87,7 +89,7 @@ Preço: {produto[3]}""")
             print(f"ID: {produto[0]}")
             print(f"Nome: {produto[1]}")
             print(f"Quantidade: {produto[2]}")
-            print(f"Preço: {produto[3]}")
+            print(f"Preço: R$ {produto[3]}")
             deletar_opcao = input("Deseja deletar esse produto? (S/N): ").lower()
             if deletar_opcao == "s":
                 cursor.execute("DELETE FROM estoque_loja WHERE id = ?", (buscar_id,))
